@@ -2,6 +2,7 @@
 
 #include <gtest/gtest.h>
 
+#include <netdb.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 
@@ -16,8 +17,9 @@ static int create_socket()
 
 	getaddrinfo("localhost", "8080", &hints, &res);
 
-	sockfd = socket(res->ai_family, res->ai_sockettype, res->ai_protocol);
-	ASSERT_NE(connect(sockfd, res->ai_addr, res->ai_addrlen), -1);
+	sockfd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+	int connectResult = connect(sockfd, res->ai_addr, res->ai_addrlen);
+	ASSERT_NE(connectResult, -1);
 	return sockfd;
 }
 
